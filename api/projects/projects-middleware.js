@@ -20,13 +20,13 @@ async function validateProject(req, res, next) {
     const { name, description, completed } = req.body
     console.log('here', name, description, completed)
     try {
-        if(!name || !description || completed) {
+        if(!name || !description ) {
             res.status(400).json({message: 'Missing Required Fields!!'})
         } else {
             next()
         }
-    } catch {
-        res.status(500).json({message:'Could Not Validate Project'})
+    } catch(err) {
+        res.status(500).json(err)
     }
 }
 

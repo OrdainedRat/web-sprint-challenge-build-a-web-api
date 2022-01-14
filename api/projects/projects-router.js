@@ -26,7 +26,7 @@ router.get('/:id', validateProjectID, (req, res) => {
     res.status(200).json(req.project)
 })
 
-router.post('/',validateProject, (req, res) => {
+router.post('/',validateProject, validateProject, (req, res) => {
     Projects.insert(req.body)
         .then(project => {
             res.status(201).json(project)
@@ -41,13 +41,20 @@ router.post('/',validateProject, (req, res) => {
     console.log(req.body)
 })
 
-router.put('/:id', validateProjectID, validateProject,  (req, res) => {
-    console.log('loookkkkkkk herrre', req.body)
-    Projects.update(req.params.id, req.body)
-        .then(project => {
+router.put('/:id', validateProjectID, validateProject, async (req, res) => {
+    const { completed } = req.body
+    try {
+        const project = await Projects.update(req.params.id, req.body)
+        if(completed != true && completed != false) {
+            res.status(400).json({message:'Missing Completed Value'})
+            console.log(req.project)
+        } else {
             res.status(200).json(project)
-        })
-        .catch(err => res.status(500).json(err))
+        } 
+    } catch(err) {
+            res.status(500).json(err)
+            console.log(req.project)
+        }
 })
 
 router.delete('/:id',validateProjectID, (req, res) => {
