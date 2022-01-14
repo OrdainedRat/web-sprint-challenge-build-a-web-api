@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const projectsRouter = require('./projects/projects-router')
+const actionsRouter = require('./actions/actions-router')
 const server = express();
 
 // Configure your server here
@@ -20,6 +21,7 @@ server.use(cors())
 server.use(express.json())
 server.use(logger)
 server.use('/api/projects', projectsRouter)
+server.use('/api/actions', actionsRouter)
 
 
 module.exports = server;

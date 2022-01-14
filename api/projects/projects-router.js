@@ -41,16 +41,34 @@ router.post('/',validateProject, (req, res) => {
     console.log(req.body)
 })
 
-router.put('/', (req, res) => {
-    console.log('endpoint here')
+router.put('/:id', validateProjectID, validateProject,  (req, res) => {
+    console.log('loookkkkkkk herrre', req.body)
+    Projects.update(req.params.id, req.body)
+        .then(project => {
+            res.status(200).json(project)
+        })
+        .catch(err => res.status(500).json(err))
 })
 
-router.delete('/', (req, res) => {
-    console.log('endpoint here')
+router.delete('/:id',validateProjectID, (req, res) => {
+    Projects.remove(req.params.id)
+        .then(project => {
+            res.status(200).json(req.project)
+            console.log(project)
+        })
+        .catch(err => {
+            res.status(500).json({message: 'Could not Delete Project',
+            error: err
+        })
+        })
 })
 
 router.get('/:id/actions', validateProjectID, (req, res) => {
-    console.log('endpoint here')
+    Projects.getProjectActions(req.params.id)
+        .then(actions => {
+            res.status(200).json(actions)
+        })
+        .catch(err => res.status(500).json(err))
 })
 
 module.exports = router

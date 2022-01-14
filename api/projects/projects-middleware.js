@@ -2,7 +2,8 @@
 const Projects = require('./projects-model')
 
 async function validateProjectID(req, res, next) {
-   try {
+   console.log('validating ID')
+    try {
        const project = await Projects.get(req.params.id)
        if(!project) {
            res.status(404).json({message: 'Could Not Find Project'})
@@ -16,10 +17,10 @@ async function validateProjectID(req, res, next) {
 }
 
 async function validateProject(req, res, next) {
-    const { name, description } = req.body
-    console.log('here', name, description)
+    const { name, description, completed } = req.body
+    console.log('here', name, description, completed)
     try {
-        if(!name || !description) {
+        if(!name || !description || completed) {
             res.status(400).json({message: 'Missing Required Fields!!'})
         } else {
             next()
