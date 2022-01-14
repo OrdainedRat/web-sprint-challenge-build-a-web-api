@@ -164,3 +164,5 @@ Express routers allow us to compartmentalize our server code, which is useful fo
 
 1. Describe tooling used to manually test the correctness of an API.
 
+Tools allow us to test the functions by doing them in a testing environment
+
